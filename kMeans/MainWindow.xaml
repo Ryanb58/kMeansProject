@@ -1,0 +1,25 @@
+﻿<Window x:Class="kMeans.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="200*" />
+            <RowDefinition Height="200*" />
+        </Grid.RowDefinitions>
+        <Button Content="Load Image" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Column="0" Grid.ColumnSpan="1" Click="Button_Click"/>
+        <Button x:Name="grayScaleButton" Content="Gray Scale" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1" Click="grayScaleButton_Click"/>
+        <Button x:Name="kMeans" Content="kMeans" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Click="kMeans_Click"/>
+
+        <Image x:Name="origImage" Grid.Column="0" Grid.Row="1" Margin="0"/>
+        <Image x:Name="grayImage" Grid.Column="1" Margin="0" Grid.Row="1"/>
+        <Image x:Name="kmeansImage" Grid.Column="0" Margin="0" Grid.Row="2" HorizontalAlignment="Left"/>
+
+
+    </Grid>
+</Window>
