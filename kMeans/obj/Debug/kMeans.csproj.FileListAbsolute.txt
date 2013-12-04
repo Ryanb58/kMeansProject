@@ -11,3 +11,6 @@ D:\Projects\WPF\kMeans\kMeans\obj\Debug\kMeans.Properties.Resources.resources
 D:\Projects\WPF\kMeans\kMeans\obj\Debug\kMeans.csproj.GenerateResource.Cache
 D:\Projects\WPF\kMeans\kMeans\obj\Debug\kMeans.exe
 D:\Projects\WPF\kMeans\kMeans\obj\Debug\kMeans.pdb
+D:\Projects\WPF\kMeansProject\kMeans\bin\Debug\kMeans.exe.config
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.exe
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.pdb

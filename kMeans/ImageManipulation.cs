@@ -23,21 +23,7 @@ namespace kMeans
 
         //Functions
 
-        public System.Windows.Media.Imaging.BitmapImage BitmapToBitMapImage(Bitmap bitmap)
-        {
-
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-            stream.Position = 0;
-            byte[] data = new byte[stream.Length];
-            stream.Read(data, 0, Convert.ToInt32(stream.Length));
-            BitmapImage bmapImage = new BitmapImage();
-            bmapImage.BeginInit();
-            bmapImage.StreamSource = stream;
-            bmapImage.EndInit();
-
-            return bmapImage;
-        }
+        #region Grayscale
 
         public System.Windows.Media.Imaging.BitmapImage ConvertToGrayScale(Bitmap bmap)
         {
@@ -72,186 +58,11 @@ namespace kMeans
             return newColor;
         }
 
-        //public void ClusterPixels(List<Centroid> centroids)
-        public void ClusterPixels()
-        {
-            //Do distance formula on each pixel vs each centroid... associate with shortest distance..
+        #endregion
 
-            foreach (Pixel pix in pixels)
-            {
-                double[] dis = new double[centroids.Count];
-                //Check the distance formula on each centroid...
-                int i = 0;
-                foreach (Centroid cen in centroids)
-                {     
-                    dis[i] = getDistanceBetweenPoints(pix.rgb.R, cen);
-                    i++;
-                    //Do distance fromula on each centroid to each pizel
-                }
+        #region Simple kMeans
 
-                //Set Cluster
-                pix.cluster = Array.IndexOf(dis, dis.Min());
-                
-                //Change to cluster color.
-                //pix.rgb = centroids[pix.cluster].rgb;
-                
-            }   
-        }
-
-        public double getDistanceBetweenPoints(int pixColor, Centroid cen)
-        {
-            /*
-            int x;
-            if (posX > cen.posX)
-            {
-                x = posX - cen.posX;
-            }
-            else
-            {
-                x = cen.posX - posX;
-            }
-
-            int y;
-            if (posY > cen.posY)
-            {
-                y = posY - cen.posY;
-            }
-            else
-            {
-                y = cen.posY - posY;
-            }
-
-            double distance = Math.Sqrt((x * x) + (y * y));
-
-            */
-            int x;
-            if (pixColor > cen.rgb.R)
-            {
-                x = pixColor - cen.rgb.R;
-            }
-            else
-            {
-                x = cen.rgb.R - pixColor;
-            }
-
-            double distance = Math.Sqrt(x * x);
-
-            return distance;
-        }
-        
-        public System.Windows.Media.Imaging.BitmapImage GetClusteredImage(int width, int height)
-        {
-            Bitmap bmap = new Bitmap( width, height);
-
-            foreach (Pixel pix in pixels)
-            {
-                //pix.rgb = centroids[pix.cluster].rgb;
-                bmap.SetPixel(pix.posX, pix.posY, centroids[pix.cluster].rgb);
-            }
-
-            return BitmapToBitMapImage(bmap);
-        }
-
-        public void GenerateNewCentroids()
-        {
-            /*
-             * Add up all the grayscale values and divide by the total amount according to that cluster.
-             * 
-             * This gives you the new color for the distances to be compared to via the distance alg.
-             * 
-             * Compare the distances.
-             * 
-             * Re-cluster
-             * 
-             */
-
-            //Console.WriteLine("Re-Cluster!");
-
-            int cenIndex = 0;
-
-            //Keep Copy of Old Centroid to check for convergence against.
-            List<Centroid> oldCentroids = new List<Centroid>(centroids.Count);
-            //Copy the centroids into the old.
-            oldCentroids = centroids.ToList();
-
-
-            foreach (Centroid cen in centroids)
-            {
-                IEnumerable<Pixel> pixelsInCluster =
-                from pix in pixels
-                where pix.cluster == cenIndex
-                select pix;
-
-                int total = 0;
-                int amt = 0;
-                foreach (Pixel pix in pixelsInCluster)
-                {
-                    total += pix.rgb.R;
-                    amt++;
-                }
-
-                //Debug.WriteLine(total + " / " + amt);
-                if (amt != 0)
-                {
-                    total = total / amt;
-
-                    Color clr = Color.FromArgb(255, total, total, total);
-
-                    cen.rgb = clr;    
-                }
-
-                //newClusterRGBs[cenIndex] = total;
-
-                cenIndex++;
-
-                //Debug.WriteLine(cenIndex.ToString() + ") " + cen.rgb.ToString());
-            } 
-
-            //Compare New centroids vs. Old ones..
-            int count = 0;
-            int changes = 0;
-            foreach (Centroid cen in centroids)
-            {
-                if (oldCentroids[count].rgb.R == cen.rgb.R)
-                {
-                    changes++;
-                }
-                count++;
-            }
-
-            if (changes == centroids.Count)
-            {
-                keepGoing = false;
-            }
-
-            /*
-            //int total = 0;
-            int[] totals = new int[centroids.Count];
-            int[] amounts = new int[centroids.Count];
-            foreach (Pixel pix in pixels)
-            {
-                totals[pix.cluster] += pix.rgb.R;
-                amounts[pix.cluster] += 1;
-            }
-
-            int j = 0;
-            foreach (int i in amounts)
-            {
-                totals[j] = totals[j] / amounts[j];
-                j++;
-            }
-            Debug.WriteLine(totals.ToString());
-
-             */
-            //foreach (Pixel pix in pixels)
-            //{
-            //    getDistanceBetweenPoints(pix.rgb.R, total);
-            //}
-        }
-
-        #region New Stuff
-
-
+        //Main kMeans function. Bitmap needed.
         public void kMeanify(Bitmap bmap)
         {
             centroids.Clear();
@@ -298,6 +109,7 @@ namespace kMeans
             //}
         }
 
+        //Function to gen random initial centroids.
         public void CreateInitCentroids(Bitmap bmap)
         {
             //Gen random number = k.
@@ -326,15 +138,217 @@ namespace kMeans
             //}
         }
 
+        //Function to place each pixel in the corresponding.
+        public void ClusterPixels()
+        {
+            //Do distance formula on each pixel vs each centroid... associate with shortest distance..
+
+            foreach (Pixel pix in pixels)
+            {
+                double[] dis = new double[centroids.Count];
+                //Check the distance formula on each centroid...
+                int i = 0;
+                foreach (Centroid cen in centroids)
+                {
+                    dis[i] = getDistanceBetweenPoints(pix.rgb.R, cen);
+                    i++;
+                    //Do distance fromula on each centroid to each pizel
+                }
+
+                //Set Cluster
+                pix.cluster = Array.IndexOf(dis, dis.Min());
+
+                //Change to cluster color.
+                //pix.rgb = centroids[pix.cluster].rgb;
+
+            }
+        }
+
+        //Function returning the distance between the point and the centroid. (really just color based, not actual x and y.)
+        public double getDistanceBetweenPoints(int pixColor, Centroid cen)
+        {
+            /*
+            int x;
+            if (posX > cen.posX)
+            {
+                x = posX - cen.posX;
+            }
+            else
+            {
+                x = cen.posX - posX;
+            }
+
+            int y;
+            if (posY > cen.posY)
+            {
+                y = posY - cen.posY;
+            }
+            else
+            {
+                y = cen.posY - posY;
+            }
+
+            double distance = Math.Sqrt((x * x) + (y * y));
+
+            */
+            int x;
+            if (pixColor > cen.rgb.R)
+            {
+                x = pixColor - cen.rgb.R;
+            }
+            else
+            {
+                x = cen.rgb.R - pixColor;
+            }
+
+            double distance = Math.Sqrt(x * x);
+
+            return distance;
+        }
+
+        //Function to generate new centroids. This is not for the initial run.
+        public void GenerateNewCentroids()
+        {
+            /*
+             * Add up all the grayscale values and divide by the total amount according to that cluster.
+             * 
+             * This gives you the new color for the distances to be compared to via the distance alg.
+             * 
+             * Compare the distances.
+             * 
+             * Re-cluster
+             * 
+             */
+
+            //Console.WriteLine("Re-Cluster!");
+
+            int cenIndex = 0;
+
+            //Keep Copy of Old Centroid to check for convergence against.
+            List<Centroid> oldCentroids = new List<Centroid>(centroids.Count);
+            //Copy the centroids into the old.
+            oldCentroids = centroids.ToList();
+
+
+            foreach (Centroid cen in centroids)
+            {
+                IEnumerable<Pixel> pixelsInCluster =
+                from pix in pixels
+                where pix.cluster == cenIndex
+                select pix;
+
+                int total = 0;
+                int amt = 0;
+                foreach (Pixel pix in pixelsInCluster)
+                {
+                    total += pix.rgb.R;
+                    amt++;
+                }
+
+                //Debug.WriteLine(total + " / " + amt);
+                if (amt != 0)
+                {
+                    total = total / amt;
+
+                    Color clr = Color.FromArgb(255, total, total, total);
+
+                    cen.rgb = clr;
+                }
+
+                //newClusterRGBs[cenIndex] = total;
+
+                cenIndex++;
+
+                //Debug.WriteLine(cenIndex.ToString() + ") " + cen.rgb.ToString());
+            }
+
+            //Compare New centroids vs. Old ones..
+            int count = 0;
+            int changes = 0;
+            foreach (Centroid cen in centroids)
+            {
+                if (oldCentroids[count].rgb.R == cen.rgb.R)
+                {
+                    changes++;
+                }
+                count++;
+            }
+
+            if (changes == centroids.Count)
+            {
+                keepGoing = false;
+            }
+
+            /*
+            //int total = 0;
+            int[] totals = new int[centroids.Count];
+            int[] amounts = new int[centroids.Count];
+            foreach (Pixel pix in pixels)
+            {
+                totals[pix.cluster] += pix.rgb.R;
+                amounts[pix.cluster] += 1;
+            }
+
+            int j = 0;
+            foreach (int i in amounts)
+            {
+                totals[j] = totals[j] / amounts[j];
+                j++;
+            }
+            Debug.WriteLine(totals.ToString());
+
+             */
+            //foreach (Pixel pix in pixels)
+            //{
+            //    getDistanceBetweenPoints(pix.rgb.R, total);
+            //}
+        }
+
+        //Function to return an Image from the list of pixels.
+        public System.Windows.Media.Imaging.BitmapImage GetClusteredImage(int width, int height)
+        {
+            Bitmap bmap = new Bitmap(width, height);
+
+            foreach (Pixel pix in pixels)
+            {
+                //pix.rgb = centroids[pix.cluster].rgb;
+                bmap.SetPixel(pix.posX, pix.posY, centroids[pix.cluster].rgb);
+            }
+
+            return BitmapToBitMapImage(bmap);
+        }
+
+        //Simple helper function to get the color or any specific centroid.
         public System.Drawing.Color getColorOfCentroid(Bitmap bmap, int x, int y)
         {
             return bmap.GetPixel(x, y);
         }
 
+        //Function to return a random number between a max and min.
         static Random r = new Random();
         static int randomNum(int min, int max)
         {
             return r.Next(min, max);
+        }
+
+        #endregion
+
+        #region Util
+
+        public System.Windows.Media.Imaging.BitmapImage BitmapToBitMapImage(Bitmap bitmap)
+        {
+
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+            stream.Position = 0;
+            byte[] data = new byte[stream.Length];
+            stream.Read(data, 0, Convert.ToInt32(stream.Length));
+            BitmapImage bmapImage = new BitmapImage();
+            bmapImage.BeginInit();
+            bmapImage.StreamSource = stream;
+            bmapImage.EndInit();
+
+            return bmapImage;
         }
 
         #endregion
