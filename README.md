@@ -5,6 +5,8 @@ This is an C#.net implementation of the kMeans Algorithm.
 
 All you need to get up and running is Visual Studio 2012 Professional or above! Download and enjoy! 
 
+[Click to see kMeans in action on youtube (2)](http://www.youtube.com/watch?v=f2QvQ97BCmI&feature=youtu.be)
+
 [Click to go to youtube and see kMeans in action](http://www.youtube.com/watch?v=VnmED1K1T-0&feature=c4-overview&list=UU9AO1ZtLHCbzJN4EbwPRnZA)
 
 Created By : Taylor Brazelton
