@@ -19,6 +19,7 @@
         <Image x:Name="origImage" Grid.Column="0" Grid.Row="1" Margin="0"/>
         <Image x:Name="grayImage" Grid.Column="1" Margin="0" Grid.Row="1"/>
         <Image x:Name="kmeansImage" Grid.Column="0" Margin="0" Grid.Row="2" HorizontalAlignment="Left"/>
+        <TextBox x:Name="txtkMeansInt" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="10,35,-29,0" Grid.Row="2" TextWrapping="Wrap" Text="int" VerticalAlignment="Top" Width="120"/>
 
 
     </Grid>

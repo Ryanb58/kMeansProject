@@ -63,8 +63,18 @@ namespace kMeans
         #region Simple kMeans
 
         //Main kMeans function. Bitmap needed.
-        public void kMeanify(Bitmap bmap)
+        public void kMeanify(Bitmap bmap, string k)
         {
+            int kInt;
+            if (k != "int")
+            {
+                kInt = Convert.ToInt32(k);
+            }
+            else
+            {
+                kInt = 0;
+            }
+            
             centroids.Clear();
 
             keepGoing = true;
@@ -76,7 +86,7 @@ namespace kMeans
 
                 if (centroids.Count == 0)
                 {
-                    CreateInitCentroids(bmap);
+                    CreateInitCentroids(bmap, kInt);
                 }
                 else
                 {
@@ -110,14 +120,22 @@ namespace kMeans
         }
 
         //Function to gen random initial centroids.
-        public void CreateInitCentroids(Bitmap bmap)
+        public void CreateInitCentroids(Bitmap bmap, int kInt)
         {
             //Gen random number = k.
 
             //int k = randomNum(0, 255);
 
+            int k;
 
-            int k = 2;
+            if (kInt == 0)
+            {
+                k = randomNum(0, 20);
+            }
+            else
+            {
+                k = kInt;
+            }
 
             Debug.WriteLine(k.ToString());
 

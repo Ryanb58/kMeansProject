@@ -64,7 +64,7 @@ namespace kMeans
         private void kMeans_Click(object sender, RoutedEventArgs e)
         {
             //centroids.Clear();
-            img.kMeanify(bmap);
+            img.kMeanify(bmap, txtkMeansInt.Text);
 
             
             
