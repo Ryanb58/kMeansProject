@@ -14,3 +14,13 @@ D:\Projects\WPF\kMeans\kMeans\obj\Debug\kMeans.pdb
 D:\Projects\WPF\kMeansProject\kMeans\bin\Debug\kMeans.exe.config
 D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.exe
 D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.pdb
+D:\Projects\WPF\kMeansProject\kMeans\bin\Debug\kMeans.exe
+D:\Projects\WPF\kMeansProject\kMeans\bin\Debug\kMeans.pdb
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.csprojResolveAssemblyReference.cache
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\MainWindow.baml
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\MainWindow.g.cs
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\App.g.cs
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans_MarkupCompile.cache
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.g.resources
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.Properties.Resources.resources
+D:\Projects\WPF\kMeansProject\kMeans\obj\Debug\kMeans.csproj.GenerateResource.Cache
