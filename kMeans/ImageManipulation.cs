@@ -68,7 +68,14 @@ namespace kMeans
             int kInt;
             if (k != "int")
             {
-                kInt = Convert.ToInt32(k);
+                if (String.IsNullOrWhiteSpace(k))
+                {
+                    kInt = 0;
+                }
+                else
+                {
+                    kInt = Convert.ToInt32(k);
+                }
             }
             else
             {
